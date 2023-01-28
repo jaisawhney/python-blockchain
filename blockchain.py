@@ -21,6 +21,7 @@ class Blockchain:
 
         self.current_transactions = []
         self.chain.append(block)
+
         return block
 
     def new_transaction(self, sender, recipient, amount):
@@ -33,18 +34,18 @@ class Blockchain:
             }
         )
 
+        return self.last_block['index'] + 1
+
     def proof_of_work(self, last_proof):
         # Consensus algorithm
 
         proof = 0
         while self.valid_proof(last_proof, proof) is False:
             proof += 1
+
         return proof
 
     def register_node(self):
-        pass
-
-    def valid_proof(self):
         pass
 
     def valid_chain(self):
@@ -56,6 +57,7 @@ class Blockchain:
 
         guess = f'{last_proof}{proof}'.encode()
         guess_hash = hashlib.sha256(guess).hexdigest()
+
         return guess_hash[:4] == '0000'
 
     @staticmethod
@@ -63,6 +65,7 @@ class Blockchain:
         # Hashes a block
 
         block_string = json.dumps(block, sort_keys=True).encode()
+        
         return hashlib.sha256(block_string).hexdigest()
 
     @property
